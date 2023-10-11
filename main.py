@@ -1,20 +1,23 @@
 import csv
-search_animal = input('Please enter the type of animal you are looking for: ')
-search_animal = search_animal.lower()
+
+animal_type = input('Please enter the type of animal you are looking for: ')
+animal_type = animal_type.lower()
+
 try:
-    if search_animal == 'cat' or search_animal == 'cats':
+    if animal_type in ('cat', 'cats'):
         csv_file = 'cats'
-    elif search_animal == 'dog' or search_animal == 'dogs':
+    elif animal_type in ('dog', 'dogs'):
         csv_file = 'dogs'
-        
+    else:
+        raise FileNotFoundError
 
-    with open(f"data/{csv_file}.csv",'r') as file:
-        reader = csv.DictReader(file, skipinitialspace=True)
+    with open(f"data/{csv_file}.csv", 'r') as file:
+        reader = csv.DictReader(file)
         for row in reader:
-            print(f"{row['name'].title()} is {row['age']} years old and is a {row['breed']}.")
+            print(f"{row['name'].title()} is a {row['age']} year old {row['breed'].title()}.")
 
-except:
-    print(f'Sorry, we do not have any {search_animal} here.')
+except FileNotFoundError:
+    print(f'Sorry, we do not have any {animal_type} here.')
 
 
 # with open('./data/cats.csv', mode='r') as csv_file:
